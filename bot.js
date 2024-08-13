@@ -118,7 +118,11 @@ async function main() {
                     respondedTxHashes.add(txHash);
 
                 } catch (err) {
-                    console.error(`Error calling pong for txHash ${txHash} in block ${log.blockNumber}:`, err);
+                    if (err.code === 'INSUFFICIENT_FUNDS') {
+                        console.error(`Insufficient funds to process pong for txHash ${txHash} in block ${blockNumber}. Please fund the wallet and load the oldest blockNumber with errors in startBlock.json.`);
+                    } else {
+                        console.error(`Error calling pong for txHash ${txHash} in block ${blockNumber}:`, err);
+                    }
                 }
             }
             else {
