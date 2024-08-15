@@ -32,3 +32,20 @@ To start the bot:
     https://sepolia.etherscan.io/address/0xc0fd70e304231DDF75a9160f197B235f44D7686e
     Starting Block:
     6489615
+
+
+
+
+To do:
+
+    The startBlock.json is currently only being updated whenever a ping is received. It would be better to update the file with
+    each new block. In this way, if the bot is restarted, the first call to 'const pings = await provider.getLogs(pingFilter);' would be shorter.
+
+    If an 'INSUFFICIENT_FUNDS' error occurs, the current version leaves the blockNumber in the log, allowing the bot to be restarted 
+    with more funds by editing the startBlock.json with the block number of the oldest Ping that was not processed. 
+    This could be improved by saving a list of "unprocessed Pings." With the, it wouldn’t be necessary to restart the bot, 
+    as unprocessed Pings could be handled when enough funds are available.
+
+    It would be a good idea to add a feature to avoid emitting a Pong if there is a spike in gas prices. For example, set a gas price 
+    limit and check the price before emitting a Pong. If the price is above the limit, the bot could wait for a defined period 
+    (which could also be set as a parameter) and then try again to emit the Pong.
